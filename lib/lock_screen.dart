@@ -1,14 +1,17 @@
 import 'dart:async';
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'dot_secret_ui.dart';
+
 import 'circle_input_button.dart';
+import 'dot_secret_ui.dart';
 
 Future showConfirmPasscode({
   @required BuildContext context,
   String title = 'Please enter passcode.',
+  TextStyle titleStyle,
   String confirmTitle = 'Please enter confirm passcode.',
   String cancelText = 'Cancel',
   String deleteText = 'Delete',
@@ -30,6 +33,7 @@ Future showConfirmPasscode({
       ) {
         return LockScreen(
           title: title,
+          titleStyle: titleStyle,
           confirmTitle: confirmTitle,
           confirmMode: true,
           digits: digits,
@@ -70,6 +74,7 @@ Future showLockScreen({
   @required BuildContext context,
   String correctString,
   String title = 'Please enter passcode.',
+  TextStyle titleStyle,
   String cancelText = 'Cancel',
   String deleteText = 'Delete',
   int digits = 4,
@@ -108,6 +113,7 @@ Future showLockScreen({
         return LockScreen(
           correctString: correctString,
           title: title,
+          titleStyle: titleStyle,
           digits: digits,
           dotSecretConfig: dotSecretConfig,
           onCompleted: onCompleted,
@@ -153,6 +159,7 @@ Future showLockScreen({
 class LockScreen extends StatefulWidget {
   final String correctString;
   final String title;
+  final TextStyle titleStyle;
   final String confirmTitle;
   final bool confirmMode;
   final Widget rightSideButton;
@@ -177,6 +184,7 @@ class LockScreen extends StatefulWidget {
   LockScreen({
     this.correctString,
     this.title = 'Please enter passcode.',
+    this.titleStyle,
     this.confirmTitle = 'Please enter confirm passcode.',
     this.confirmMode = false,
     this.digits = 4,
@@ -480,7 +488,7 @@ class _LockScreenState extends State<LockScreen> {
       margin: EdgeInsets.symmetric(vertical: 20),
       child: Text(
         _isConfirmation ? widget.confirmTitle : widget.title,
-        style: TextStyle(fontSize: 20.0),
+        style: widget.titleStyle ?? TextStyle(fontSize: 20.0),
       ),
     );
   }
