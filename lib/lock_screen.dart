@@ -92,6 +92,7 @@ Future showLockScreen({
   CircleInputButtonConfig circleInputButtonConfig =
       const CircleInputButtonConfig(),
   void Function() onUnlocked,
+  void Function() onUnlockedFailed,
 }) {
   return Navigator.of(context).push(
     PageRouteBuilder(
@@ -130,6 +131,7 @@ Future showLockScreen({
           backgroundColorOpacity: backgroundColorOpacity,
           circleInputButtonConfig: circleInputButtonConfig,
           onUnlocked: onUnlocked,
+          onUnlockedFailed: onUnlockedFailed,
         );
       },
       transitionsBuilder: (
@@ -180,6 +182,7 @@ class LockScreen extends StatefulWidget {
   final Color backgroundColor;
   final double backgroundColorOpacity;
   final void Function() onUnlocked;
+  final void Function() onUnlockedFailed;
 
   LockScreen({
     this.correctString,
@@ -204,6 +207,7 @@ class LockScreen extends StatefulWidget {
     this.backgroundColor = Colors.white,
     this.backgroundColorOpacity = 0.5,
     this.onUnlocked,
+    this.onUnlockedFailed,
   });
 
   @override
@@ -363,6 +367,9 @@ class _LockScreenState extends State<LockScreen> {
         validateStreamController.add(false);
         enteredValues.clear();
         enteredLengthStream.add(enteredValues.length);
+        if (widget.onUnlockedFailed != null) {
+          widget.onUnlockedFailed();
+        }
       }
     });
   }
